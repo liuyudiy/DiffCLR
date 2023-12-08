@@ -1,0 +1,87 @@
+{
+    "default": {
+      "names": "nell955",
+      "root_dir": "../DiffCLR",
+      "data_dir": "./data/NELL-betae",
+      "loss": "LS",
+      "smoothing": 0.7
+    },
+    "pretrain1": {
+      "base": "default",
+      "type": "pretrain",
+      "do_train": true,
+      "do_test": false,
+      "load_up_model": false,
+      "load_down_model": false,
+      "best_model": false,
+      "up_model_path":"",
+      "down_model_path":"",
+      "num_epoch": 600,
+      "batch_size": 64,
+      "save_interval": 10,
+      "test_interval": 2,
+      "pretrain_sampler_ratio": {
+        "meta_tree": 1,
+        "ladies": 1
+      }
+    },
+    "pretrain2": {
+      "base": "default",
+      "type": "pretrain",
+      "do_train": true,
+      "do_test": false,
+      "load_up_model": true,
+      "load_down_model": false,
+      "best_model": true,
+      "up_model_path":"pretrain/nell955_pretrain1",
+      "down_model_path":"",
+      "save_interval": 10,
+      "test_interval": 2,
+      "num_epoch": 1000,
+      "batch_size": 256,
+      "pretrain_sampler_ratio": {"1p": 10, "2p": 10, "3p": 10, "2i": 3, "3i": 3}
+    },
+    "reasoning_multi": {
+      "base": "default",
+      "type": "reasoning",
+      "train_modes": ["1p", "2p", "3p", "2i", "3i"],
+      "test_modes": ["1p", "2p", "3p", "2i", "3i", "ip", "pi"],
+      "do_train": true,
+      "do_test": false,
+      "load_up_model": true,
+      "load_down_model": false,
+      "best_model": true,
+      "up_model_path":"pretrain/nell955_pretrain2",
+      "down_model_path":"reasoning/nell955_reasoning_multi",
+      "save_interval": 1,
+      "test_interval": 1,
+      "num_epoch": 30,
+      "batch_size": 64,
+      "lr": 1e-4,
+      "use_neis": true,
+      "hop": 5,
+      "num_neis":10
+    },
+    "reasoning_multi_2p": {
+      "base": "default",
+      "type": "reasoning",
+      "train_modes": ["1p", "2p"],
+      "test_modes": ["1p", "2p"],
+      "do_train": true,
+      "do_test": false,
+      "load_up_model": true,
+      "load_down_model": false,
+      "best_model": true,
+      "up_model_path":"reasoning/nell955_reasoning_multi_2p",
+      "down_model_path":"reasoning/nell955_reasoning_multi_2p",
+      "save_interval": 1,
+      "test_interval": 1,
+      "num_epoch": 100,
+      "batch_size": 32,
+      "lr": 1e-5,
+      "use_neis": true,
+      "hop": 5,
+      "num_neis":100
+    }
+  }
+  
